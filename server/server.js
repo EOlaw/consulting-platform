@@ -30,16 +30,26 @@ const app = express();
 // Connect to Database
 connectDB();
 
+// Security middleware
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://0.0.0.0:3000', 'http://10.0.0.218:3000', 'http://localhost:5001'],  // Allow both localhost and IP access
+  credentials: false,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Content-Length', 'X-Requested-With', 'Access-Control-Allow-Origin'],
+  maxAge: 86400 // 24 hours
+}));
+
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(cors({
-  origin: config.CLIENT_URL,
-  credentials: true
-}));
-
-// Security middleware
-app.use(helmet());
+// app.use(cors({
+//   origin: config.CLIENT_URL || ['http://localhost:3000', 'http://0.0.0.0:3000', 'http://localhost:5000'],
+//   credentials: true
+// }));
 
 // Logging middleware
 if (config.NODE_ENV === 'development') {
@@ -110,7 +120,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const PORT = config.PORT;
+const PORT = config.PORT || 5001;
 const server = app.listen(PORT, () => {
   console.log(`Server running in ${config.NODE_ENV} mode on port ${PORT}`);
 });

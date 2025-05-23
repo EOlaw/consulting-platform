@@ -2,8 +2,8 @@
  * Contact Form Controller
  */
 const contactFormService = require('../services/contact-form-service');
-const catchAsync = require('../../utils/catch-async');
-const AppError = require('../../utils/app-error');
+const { catchAsync } = require('../../utils/catch-async');
+const { AppError } = require('../../utils/app-error');
 
 class ContactFormController {
   /**

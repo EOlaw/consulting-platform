@@ -3,7 +3,7 @@
  */
 const express = require('express');
 const contactFormController = require('../controllers/contact-form-controller');
-const authMiddleware = require('../../middleware/auth-middleware');
+const { authenticate } = require('../../middleware/auth-middleware');
 const roleMiddleware = require('../../middleware/role-middleware');
 
 const router = express.Router();
@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/', contactFormController.createSubmission);
 
 // Protected routes for management
-router.use(authMiddleware.protect);
+router.use(authenticate);
 
 // Routes for authenticated users with appropriate roles
 router.get(

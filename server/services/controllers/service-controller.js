@@ -2,8 +2,8 @@
  * Service Controller
  */
 const serviceService = require('../services/service-service');
-const catchAsync = require('../../utils/catch-async');
-const AppError = require('../../utils/app-error');
+const { catchAsync } = require('../../utils/catch-async');
+const { AppError } = require('../../utils/app-error');
 
 class ServiceController {
   /**
@@ -44,9 +44,9 @@ class ServiceController {
 
     // Filter for the organization's services if user is not admin
     const filter = {};
-    if (req.user.role !== 'admin' && req.user.role !== 'super-admin') {
-      filter.organization = req.user.organization;
-    }
+    // if (req.user.role !== 'admin' && req.user.role !== 'super-admin') {
+    //   filter.organization = req.user.organization;
+    // }
 
     const result = await serviceService.getAllServices(filter, options);
 
